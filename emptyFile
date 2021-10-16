@@ -1,0 +1,18 @@
+const color = require("../../json/colors.json")
+const emotes = require("../../json/emotes.json")
+
+module.exports = {
+	name: "",
+	category: "",
+	description: "",
+	aliases: [""],
+	usage: "",
+	run: async (client, message, args) => {
+
+		message.delete()
+
+		
+	}
+}
+
+https://discord.com/api/oauth2/authorize?client_id=889929001945169940&permissions=8&scope=bot

@@ -12,6 +12,24 @@ module.exports = {
         message.delete()
 
         const embed = new MessageEmbed()
-            .setTitle(``)
+            .setTitle(`Hydra Tech | Bot Support`)
+            .setColor(color.green)
+            .setThumbnail(`https://cdn.discordapp.com/attachments/889929810825056327/898847485911523378/HT_Gif.gif`)
+            .setDescription(`
+**Member Commands**
+help - Shows this embed.
+
+**Staff Commands**
+accept - Accept an application.
+deny - Deny an application.
+
+**Account Commands**
+profile - See your or a mentioned users profile
+name - Set a name in your profile
+description - Set a description for your profile
+            `)
+            .setFooter(message.author.tag, message.author.displayAvatarURL())
+            .setTimestamp()
+        message.channel.send(embed)
     }
 }

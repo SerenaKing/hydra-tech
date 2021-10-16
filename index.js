@@ -7,25 +7,25 @@ const db = require("quick.db")
 
 const chalk = require("chalk")
 
-const token = require("./json/token.json")
-const config = require("./json/config.json")
+const botConfig = require("./json/token.json")
+const { prefix } = require("./json/config.json")
 
-const client = new Client()
+const client = new Client();
 
 client.commands = new Collection();
 client.aliases = new Collection();
 
-client.categories = fs.readdirSync("./commands/")
+client.categories = fs.readdirSync("./commands/");
 
 ["command"].forEach(handler => {
-    require(`./handler/${handler}`)(client)
+    require(`./handler/${handler}`)(client);
 });
 
 const activities = [
-    { name: ``, type: ``},
-    { name: ``, type: ``},
-    { name: ``, type: ``},
-    { name: ``, type: ``}
+    { name: `the server`, type: `WATCHING`},
+    { name: `in the CAD industry!`, type: `COMPETING`},
+    { name: `games that we all enjoy!`, type: `PLAYING`},
+    { name: `the server logs. Shush!`, type: `LISTENING`}
 ]
 
 client.on('ready', () => {
@@ -39,7 +39,7 @@ client.on('ready', () => {
     // client.user.setActivity('Game', { type: "COMPETING", type: "CUSTOM_STATUS", type: "LISTENING", type: "PLAYING", type: "STREAMING", type: "WATCHING"})
     // Define all other activity types.
 
-    client.user.setPresence({ status: "online", activity: activities[0] });
+    client.user.setPresence({ status: "dnd", activity: activities[0] });
 
     let activity = 1;
 
@@ -78,4 +78,28 @@ client.on("message", async message => {
 
 });
 
-client.login(token)
+client.on("guildMemberAdd", async (member) => {
+    const memberBadge = db.fetch('')
+
+    const welcomeChannel = member.guild.channels.cache.get("")
+    const welcomeRole = member.guild.roles.cache.get("")
+
+    member.roles.add(welcomeRole)
+
+    const embed = new MessageEmbed()
+        .setTitle(`Hydra Tech | Welcome`)
+        .setColor("BLUE")
+        // .setImage()
+        .setThumbnail(`https://i.imgur.com/QVQrXz8.mp4`)
+        .setDescription(`
+Welcome, <@!${member.user.id}>
+        `)
+        .setFooter(member.user.id, member.user.displayAvatarURL())
+        .setTimestamp()
+    welcomeChannel.send(`<@!${member.user.id}>`, {
+        embed: embed
+    })
+        .then(await db.set(`user.badge.memberBadge`, ''))
+})
+
+client.login(botConfig.token)
